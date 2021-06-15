@@ -56,13 +56,13 @@ class FCN:
         self.lr = 0.001
         self.out_shape = 2
         self.batchsize = 64
-        self.epochs = 3
+        self.epochs = 4
         self.net = self.net_builder()
 
     def net_builder(self):
         input_ = keras.Input(self.in_shape, dtype='float', name='patch input')
         common = keras.layers.Conv2D(3, (3, 3), strides=(1, 1), activation='relu')(input_)
-        common = keras.layers.Conv2D(9, (3, 3), strides=(1, 1), activation='relu')(common)
+        common = keras.layers.Conv2D(7, (3, 3), strides=(1, 1), activation='relu')(common)
         common = keras.layers.Conv2D(13, (3, 3), strides=(1, 1), padding='same', activation='relu')(common)
         common = keras.layers.Conv2D(17, (3, 3), strides=(1, 1), padding='same', activation='relu')(common)
         common = keras.layers.Conv2D(21, (3, 3), strides=(1, 1), padding='same', activation='relu')(common)
@@ -111,7 +111,7 @@ if __name__ == '__main__':
     img_label[img_label == 255.] = 1
 
     img_label = tf.one_hot(img_label.squeeze(), depth=2)
-    db_train = tf.data.Dataset.from_tensor_slices((img_origin, img_label)).shuffle(500).batch(10)
+    db_train = tf.data.Dataset.from_tensor_slices((img_origin, img_label)).shuffle(500).batch(24)
     drive = FCN()
     drive.net.compile(loss=keras.losses.mse, optimizer=keras.optimizers.Adam(learning_rate=0.001), metrics=['accuracy'])
     drive.net.fit(db_train, epochs=drive.epochs)
