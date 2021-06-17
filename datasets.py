@@ -111,7 +111,7 @@ if __name__ == '__main__':
     img_label[img_label == 255.] = 1
 
     img_label = tf.one_hot(img_label.squeeze(), depth=2)
-    db_train = tf.data.Dataset.from_tensor_slices((img_origin, img_label)).shuffle(500).batch(24)
+    db_train = tf.data.Dataset.from_tensor_slices((img_origin, img_label)).shuffle(1000).batch(15)
     drive = FCN()
     drive.net.compile(loss=keras.losses.mse, optimizer=keras.optimizers.Adam(learning_rate=0.001), metrics=['accuracy'])
     drive.net.fit(db_train, epochs=drive.epochs)
