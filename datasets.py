@@ -83,6 +83,10 @@ class FCN:
 
 
 if __name__ == '__main__':
+    gpus = tf.config.experimental.list_physical_devices(device_type='GPU')
+    tf.config.experimental.set_virtual_device_configuration(gpus[0],
+                                                            [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=2048)])
+
     path_dir_img = os.path.join(path_dir, 'DRIVE', 'test', 'images').replace('\\', '/')
     file_list_img = os.listdir(path_dir_img)
     file_list_img.sort()
